@@ -49,6 +49,7 @@ class MapToNameAndIconCellRenderer[A](
 	def getListCellRendererComponent(list:JList[_ <: A], value:A, index:Int,
 			isSelected:Boolean, cellHasFocus:Boolean):java.awt.Component =
 	{
+		// TRYTHIS: call NameAndIconCellRenderer.getListCellRendererComponent
 		val returnValue = new JLabel
 		val nameAndIcon = conversion(value)
 		
