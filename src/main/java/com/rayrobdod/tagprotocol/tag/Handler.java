@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 
 public final class Handler extends java.net.URLStreamHandler {
 
-	private static final String urlChar = "[\\w\\-\\_\\.\\!\\~\\*\\'\\(\\)\\%\\&\\=]+";
+	private static final String urlChar = "[\\w\\-\\_\\.\\!\\~\\*\\'\\(\\)\\%\\&\\=\\/]+";
 	private static final String datePattern = "\\d\\d\\d\\d(?:-\\d\\d(?:-\\d\\d)?)?";
 	public static final Pattern tagPattern = Pattern.compile("(("+urlChar+"),"+datePattern+"):("+urlChar+")(?:\\?("+urlChar+"))?" );
 		

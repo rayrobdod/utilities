@@ -12,12 +12,17 @@ public interface TagResource {
 	String name();
 	
 	/**
-	 * @return an object if the tag refers to an object, or null if the tag refers to an InputStream.
+	 * @return An object representing this tag
 	 */
 	Object getContent() throws IOException;
 	
 	/**
-	 * @return an InputStream if the tag refers to an InputStream, or null if the tag refers to an Object.
+	 * @return An object representing this tag in the requested format
+	 */
+	//Object getContent(Class[] classes) throws IOException;
+	
+	/**
+	 * @return an InputStream representing this tag
 	 */
 	InputStream getInputStream() throws IOException;
 	
