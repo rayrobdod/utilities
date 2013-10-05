@@ -1,0 +1,29 @@
+Utilities
+
+
+== 2013-09-08 ==
+* for web browser thing *
+
+Prompt
+	Model-View way to ask a user for stuff
+more swing stuff
+	TextOverlayIcon
+	MyMenuBar
+tag protocol handler
+AggregateURLContentHandler and supportin classes
+
+
+== 2013-08-15 ==
+* for ImageManipulator 1.0.5 and DeductionTactics a.5.0 *
+
+Animation
+	time-based events
+some swing stuff
+	GridBagConstraintsFactory
+	ScalaSeqListModel
+	SolidColorIcon
+	LayeredLayout
+	MoveToLayout
+	ExitMenuItem
+Reading text, classes, or resource as a service
+Common Function Notation parser
