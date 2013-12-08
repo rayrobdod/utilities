@@ -9,6 +9,11 @@ version := "SNAPSHOT"
 
 scalaVersion := "2.9.3"
 
-crossScalaVersions ++= Seq("2.11.0-M4", "2.10.2", "2.9.3", "2.9.2", "2.9.1")
+crossScalaVersions ++= Seq("2.11.0-M4", "2.10.3", "2.9.3", "2.9.2", "2.9.1")
 
 exportJars := true
+
+
+javacOptions ++= Seq("-Xlint:deprecation", "-Xlint:unchecked")
+
+scalacOptions ++= Seq("-unchecked", "-deprecation" )

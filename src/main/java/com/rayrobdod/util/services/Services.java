@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
  * @version 12 Jul 2012 - only making a new jar file system if there isn't already one
  * @version 2013 Jun 24 - HashMap → SingletonMap
  */
-public class Services
+public final class Services
 {
 	private final static String PREFIX = "META-INF/services/";
 	

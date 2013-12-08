@@ -9,7 +9,7 @@ import static com.rayrobdod.util.services.Services.readServices;
  * @author Raymond Dodge
  * @version 09 Jul 2012
  */
-public class ClassServiceLoader<A> implements Iterable<Class<? extends A>>
+public final class ClassServiceLoader<A> implements Iterable<Class<? extends A>>
 {
 	private final Class<A> clazz;
 	private final String serviceName;
