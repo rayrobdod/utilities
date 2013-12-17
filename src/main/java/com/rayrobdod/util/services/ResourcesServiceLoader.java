@@ -2,9 +2,7 @@ package com.rayrobdod.util.services;
 
 import java.util.ServiceConfigurationError;
 import static com.rayrobdod.util.services.Services.readServices;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URL;
 
 /**
  * A ServiceLoader-like that loads the path names for resources 
@@ -12,7 +10,7 @@ import java.nio.file.Paths;
  * @author Raymond Dodge
  * @version 2013 Dec 17 - using proper classloaders
  */
-public class ResourcesServiceLoader implements Iterable<Path>
+public class ResourcesServiceLoader implements Iterable<URL>
 {
 	private final String serviceName;
 	private final ClassLoader loader;
@@ -29,12 +27,12 @@ public class ResourcesServiceLoader implements Iterable<Path>
 		this.loader = loader;
 	}
 	
-	public java.util.Iterator<Path> iterator()
+	public java.util.Iterator<URL> iterator()
 	{
 		return new Iterator();
 	}
 	
-	private class Iterator implements java.util.Iterator<Path>
+	private class Iterator implements java.util.Iterator<URL>
 	{
 		private int current = 0;
 		private final String[] readLines;
@@ -55,33 +53,25 @@ public class ResourcesServiceLoader implements Iterable<Path>
 			}
 		}
 		
-		public Path next() throws java.util.NoSuchElementException
+		public URL next() throws java.util.NoSuchElementException
 		{
 			if (!hasNext()) throw new java.util.NoSuchElementException();
 			
-			// TODO: more checks
-			try
-			{
-				String returnString = readLines[current];
-				java.net.URL returnURL;
-				if (loader == null) {
-					returnURL = ClassLoader.getSystemResource(returnString);
-				} else {	
-					returnURL = loader.getResource(returnString);
-				}
-				
-				if (returnURL == null) throw new ServiceConfigurationError(
-					"Service " + serviceName + " pointed at nonexistant resource: " +
-					returnString);
-				
-				Path returnPath = Paths.get(returnURL.toURI());
-				current++;
-				return returnPath;
+			// TODO: more checks (?)
+			String returnString = readLines[current];
+			java.net.URL returnURL;
+			if (loader == null) {
+				returnURL = ClassLoader.getSystemResource(returnString);
+			} else {	
+				returnURL = loader.getResource(returnString);
 			}
-			catch (java.net.URISyntaxException e)
-			{
-				throw new ServiceConfigurationError("Invalid Path", e);
-			}
+			
+			if (returnURL == null) throw new ServiceConfigurationError(
+				"Service " + serviceName + " pointed at nonexistant resource: " +
+				returnString);
+			
+			current++;
+			return returnURL;
 		}
 		
 		public boolean hasNext()

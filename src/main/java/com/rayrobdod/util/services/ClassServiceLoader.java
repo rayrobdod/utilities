@@ -57,7 +57,6 @@ public class ClassServiceLoader<A> implements Iterable<Class<? extends A>>
 		{
 			if (!hasNext()) throw new java.util.NoSuchElementException();
 			
-			// TODO: more checks, such as ? acutally extends A
 			try
 			{
 				Class<?> returnValue;

@@ -1,16 +1,12 @@
 package com.rayrobdod.util.services;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.ServiceConfigurationError;
+import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.FileSystems;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -50,23 +46,14 @@ public class Services
 		
 		while (listOfFiles.hasMoreElements())
 		{
-			URL serviceFileURL = listOfFiles.nextElement();
+			final URL serviceFileURL = listOfFiles.nextElement();
+			final InputStream serviceFileStream = serviceFileURL.openStream();
 			
-			if (serviceFileURL.toString().startsWith("jar:"))
-			{
-				try {
-					Map<String, String> env = Collections.singletonMap("create", "true");
-					
-					FileSystems.newFileSystem(new java.net.URI(serviceFileURL.toString().split("!")[0]), env);
+			Iterable<String> lines = new Iterable<String>() {
+				public Iterator<String> iterator() {
+					return new java.util.Scanner(serviceFileStream).useDelimiter("\n");
 				}
-				catch (java.nio.file.FileSystemAlreadyExistsException w) {
-					// FileSystem exists, so it doesn't have to be made
-				}
-			}
-			
-			Path serviceFilePath = Paths.get(serviceFileURL.toURI());
-			
-			List<String> lines = Files.readAllLines(serviceFilePath, StandardCharsets.UTF_8);
+			};
 			
 			for (String line : lines)
 			{
