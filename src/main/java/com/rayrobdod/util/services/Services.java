@@ -17,9 +17,7 @@ import java.nio.charset.StandardCharsets;
  * A class with a single static method that reads all lines in a ServiceLoader style
  * file.
  * @author Raymond Dodge
- * @version 09 Jul 2012
- * @version 12 Jul 2012 - only making a new jar file system if there isn't already one
- * @version 2013 Jun 24 - HashMap → SingletonMap
+ * @version 2013 Dec 17 - using proper classloaders
  */
 public class Services
 {
@@ -46,7 +44,7 @@ public class Services
 		if (loader == null) {
 			listOfFiles = ClassLoader.getSystemResources(fullPath);
 		} else {	
-			listOfFiles = Services.class.getClassLoader().getResources(fullPath);
+			listOfFiles = loader.getResources(fullPath);
 		}
 		List<String> allLines = new ArrayList<String>();
 		

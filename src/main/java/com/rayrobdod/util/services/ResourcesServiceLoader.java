@@ -10,15 +10,23 @@ import java.nio.file.Paths;
  * A ServiceLoader-like that loads the path names for resources 
  * from a service file
  * @author Raymond Dodge
- * @version 18 Jul 2012
+ * @version 2013 Dec 17 - using proper classloaders
  */
 public class ResourcesServiceLoader implements Iterable<Path>
 {
 	private final String serviceName;
+	private final ClassLoader loader;
 	
-	public ResourcesServiceLoader(String serviceName)
-	{
+	public ResourcesServiceLoader(String serviceName) {
+		this(
+			serviceName, 
+			Thread.currentThread().getContextClassLoader()
+		);
+	}
+	
+	public ResourcesServiceLoader(String serviceName, ClassLoader loader) {
 		this.serviceName = serviceName;
+		this.loader = loader;
 	}
 	
 	public java.util.Iterator<Path> iterator()
@@ -35,7 +43,7 @@ public class ResourcesServiceLoader implements Iterable<Path>
 		{
 			try
 			{
-				readLines = readServices(serviceName);
+				readLines = readServices(serviceName, loader);
 			}
 			catch (java.io.IOException e)
 			{
@@ -55,7 +63,12 @@ public class ResourcesServiceLoader implements Iterable<Path>
 			try
 			{
 				String returnString = readLines[current];
-				java.net.URL returnURL = ClassLoader.getSystemResource(returnString);
+				java.net.URL returnURL;
+				if (loader == null) {
+					returnURL = ClassLoader.getSystemResource(returnString);
+				} else {	
+					returnURL = loader.getResource(returnString);
+				}
 				
 				if (returnURL == null) throw new ServiceConfigurationError(
 					"Service " + serviceName + " pointed at nonexistant resource: " +

@@ -7,19 +7,24 @@ import static com.rayrobdod.util.services.Services.readServices;
  * A ServiceLoader-like that loads the classes of the services rather than the
  * services themselves.
  * @author Raymond Dodge
- * @version 09 Jul 2012
+ * @version 2013 Dec 17 - using proper classloaders
  */
 public class ClassServiceLoader<A> implements Iterable<Class<? extends A>>
 {
 	private final Class<A> clazz;
 	private final String serviceName;
+	private final ClassLoader loader;
 	
-	public ClassServiceLoader(Class<A> clazz) {this(clazz, clazz.getName());}
+	private static ClassLoader defaultClassLoader() {return Thread.currentThread().getContextClassLoader();}
+	public ClassServiceLoader(Class<A> clazz) {this(clazz, clazz.getName(), defaultClassLoader());}
+	public ClassServiceLoader(Class<A> clazz, String serviceName) {this(clazz, serviceName, defaultClassLoader());}
+	public ClassServiceLoader(Class<A> clazz, ClassLoader loader) {this(clazz, clazz.getName(), loader);}
 	
-	public ClassServiceLoader(Class<A> clazz, String serviceName) 
+	public ClassServiceLoader(Class<A> clazz, String serviceName, ClassLoader loader) 
 	{
 		this.clazz = clazz;
 		this.serviceName = serviceName;
+		this.loader = loader;
 	}
 	
 	public java.util.Iterator<Class<? extends A>> iterator()
@@ -55,9 +60,14 @@ public class ClassServiceLoader<A> implements Iterable<Class<? extends A>>
 			// TODO: more checks, such as ? acutally extends A
 			try
 			{
-				Class<?> returnValue = Class.forName(readLines[current]);
+				Class<?> returnValue;
+				if (loader == null) {
+					returnValue = Class.forName(readLines[current]);
+				} else {	
+					returnValue = loader.loadClass(readLines[current]);
+				}
 				current++;
-				return (Class<? extends A>) returnValue;
+				return returnValue.asSubclass(clazz);
 			}
 			catch (ClassNotFoundException e)
 			{
