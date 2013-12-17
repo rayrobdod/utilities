@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.ServiceConfigurationError;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +26,12 @@ public class Services
 	private final static String PREFIX = "META-INF/services/";
 	
 	private Services(){}
+
+	public static String[] readServices(String service) throws java.io.IOException, java.net.URISyntaxException {
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		return Services.readServices(service, cl);
+	}
+
 	
 	/**
 	 * Reads all lines in all Service style classes with the specificed name.
@@ -32,10 +39,15 @@ public class Services
 	 * Anything on a line after a '#' is ignored. An empty line is ignored.
 	 * Anything else is recorded and returned.
 	 */
-	public static String[] readServices(String service) throws java.io.IOException, java.net.URISyntaxException
+	public static String[] readServices(String service, ClassLoader loader) throws java.io.IOException, java.net.URISyntaxException
 	{
 		final String fullPath = PREFIX + service;
-		final Enumeration<URL> listOfFiles = ClassLoader.getSystemResources(fullPath);
+		final Enumeration<URL> listOfFiles;
+		if (loader == null) {
+			listOfFiles = ClassLoader.getSystemResources(fullPath);
+		} else {	
+			listOfFiles = Services.class.getClassLoader().getResources(fullPath);
+		}
 		List<String> allLines = new ArrayList<String>();
 		
 		while (listOfFiles.hasMoreElements())

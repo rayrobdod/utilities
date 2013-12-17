@@ -1,0 +1,8 @@
+first
+
+second
+# blank lines and comments should be ignored
+
+third # even this is a comment
+
+
