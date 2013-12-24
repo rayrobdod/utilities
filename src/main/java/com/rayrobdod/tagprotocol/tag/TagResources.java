@@ -30,6 +30,9 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * contains an iterator for the TagResources service
+ */
 public final class TagResources {
 	private TagResources() {}
 	

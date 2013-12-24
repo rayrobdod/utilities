@@ -31,6 +31,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * A TagResource represents a resource accessible via the tag protocol
+ * 
+ * To make this accessible for URLs, make the [[URLConnection]] visible,
+ * implement this interface, and mention it as a service of this class
+ */
 public interface TagResource {
 	/**
 	 * Returns the authority/path pair identifying this resource
@@ -52,5 +58,8 @@ public interface TagResource {
 	 */
 	InputStream getInputStream() throws IOException;
 	
+	/**
+	 * Any header fields the URLConnection should report
+	 */
 	Map<String,List<String>> getHeaderFields();
 }

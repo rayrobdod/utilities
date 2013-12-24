@@ -32,6 +32,9 @@ import java.net.URL;
 import java.io.InputStream;
 import java.io.IOException;
 
+/**
+ * The URLConnection that lets URLs access the tag protocol.
+ */
 public final class URLConnection extends java.net.URLConnection {
 	private final String name;
 	private final TagResource resource;
