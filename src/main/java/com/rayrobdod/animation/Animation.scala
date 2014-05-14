@@ -34,11 +34,7 @@ import java.lang.System.{currentTimeMillis => currentTime}
  *
  * 
  * @author Raymond Dodge
- * @version 16 June 2011 - debugging!
- * @version 15 Dec 2011 - moved from {@code net.verizon.rayrobdod.boardGame} to {@code com.rayrobdod.boardGame}
- * @version 17 May 2012 - gutting, removing state, and replacing with a listener-based class 
- * @version 18 May 2012 - moved from {@code com.rayrobdod.boardGame} to {@code com.rayrobdod.animation}
- * @version 22 May 2012 - removing paintCurrentFrame, width and height. see [[com.rayrobdod.animation.RenderableAnimation]]
+ * @version 2014 May 13
  */
 abstract class Animation extends Runnable
 {
@@ -59,21 +55,24 @@ abstract class Animation extends Runnable
 	/** Advances to the next frame. */
 	def incrementFrame():Any
 	
-	def addNextFrameListener(l:NextFrameListener) {
+	final def addNextFrameListener(l:NextFrameListener) {
 		frameChangeListeners = l +: frameChangeListeners
 	}
+	final def addAnimationEndedListener(l:AnimationEndedListener) {
+		endAnimationListeners = l +: endAnimationListeners
+	}
 	
-	protected def notifyListenersOfFrameChange(e:NextFrameEvent) =
+	final protected def notifyListenersOfFrameChange(e:NextFrameEvent) =
 	{
 		frameChangeListeners.foreach{_.frameChanged(e)}
 	}
 	
-	protected def notifyListenersOfEndAnimation(e:AnimationEndedEvent) =
+	final protected def notifyListenersOfEndAnimation(e:AnimationEndedEvent) =
 	{
 		endAnimationListeners.foreach{_.animationEnded(e)}
 	}
 	
-	def run():Unit = {
+	final def run():Unit = {
 		running = true;
 		
 		while (running)
@@ -103,7 +102,6 @@ trait NextFrameListener extends java.util.EventListener
 
 case class NextFrameEvent(src:Animation)
 		extends java.util.EventObject(src)
-//		with scala.swing.Event
 {
 	override def getSource:Animation = src
 }
@@ -115,7 +113,6 @@ trait AnimationEndedListener extends java.util.EventListener
 
 case class AnimationEndedEvent(src:Animation)
 		extends java.util.EventObject(src)
-//		with scala.swing.Event
 {
 	override def getSource:Animation = src
 }
