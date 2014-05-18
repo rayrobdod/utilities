@@ -33,11 +33,9 @@ import com.rayrobdod.util.BlitzAnimImage
 
 /**
  * @author Raymond Dodge
- * @version 17 May 2012
- * @version 22 May 2012 - not extends RenderableAnimation rather than Animation
- * @version 2013 Aug 07 - `private val frames2:Seq[Image] = frames` because Scala 2.10 is an idiot
+ * @version 2014 May 18
  */
-class ImageFrameAnimation(
+final class ImageFrameAnimation(
 			frames:Seq[_ <: Image],
 			frameLengths:Seq[Int],
 			repeat:Boolean = false
@@ -62,19 +60,19 @@ class ImageFrameAnimation(
 	frames2.forall{_.getWidth(null) == frames(0).getWidth(null)}
 	frames2.forall{_.getHeight(null) == frames(0).getHeight(null)}
 	
-	val width = frames(0).getWidth(null);
-	val height = frames(0).getHeight(null);
-	def paintCurrentFrame(c:Component, g:Graphics, x:Int, y:Int) = {
+	override val width = frames(0).getWidth(null);
+	override val height = frames(0).getHeight(null);
+	override def paintCurrentFrame(c:Component, g:Graphics, x:Int, y:Int) = {
 		g.drawImage(frames(currentFrame), x, y, null)
 	}
-	def currFrameLength = frameLengths(currentFrame)
+	override def currFrameLength = frameLengths(currentFrame)
 	
-	def incrementFrame() {
+	override def incrementFrame() {
 		currentFrame = currentFrame + 1
 		if (repeat) {
 			currentFrame = currentFrame % frames.length
 		} else {
-			running = currentFrame <= frames.length
+			running = currentFrame < frames.length
 		}
 	}
 	

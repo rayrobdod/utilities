@@ -45,9 +45,9 @@ abstract class Animation extends Runnable
 	/** the time the previous frame change happened */
 	private var lastFrameChange:Long = _
 	
-	var paused:Boolean = false
-	def running:Boolean = _running
-	protected def running_=(x:Boolean) = {_running = x}
+	final var paused:Boolean = false
+	final def running:Boolean = _running
+	final protected def running_=(x:Boolean) = {_running = x}
 	private var _running = false
 	
 	/** The length of time that the current frame should exist for */
@@ -55,9 +55,11 @@ abstract class Animation extends Runnable
 	/** Advances to the next frame. */
 	def incrementFrame():Any
 	
+	/** Add a listener to be fired upon frame changes */
 	final def addNextFrameListener(l:NextFrameListener) {
 		frameChangeListeners = l +: frameChangeListeners
 	}
+	/** Add a listener to be fired upon the end of the animation */
 	final def addAnimationEndedListener(l:AnimationEndedListener) {
 		endAnimationListeners = l +: endAnimationListeners
 	}
@@ -72,6 +74,7 @@ abstract class Animation extends Runnable
 		endAnimationListeners.foreach{_.animationEnded(e)}
 	}
 	
+	/** Run the animation */
 	final def run():Unit = {
 		running = true;
 		
@@ -79,7 +82,7 @@ abstract class Animation extends Runnable
 		{
 			lastFrameChange = currentTime()
 			
-			while (!paused) {
+			while (!paused && running) {
 				while (lastFrameChange + currFrameLength - currentTime() > 0)
 				{
 					Thread.sleep(lastFrameChange + currFrameLength - currentTime())
@@ -87,7 +90,10 @@ abstract class Animation extends Runnable
 				
 				lastFrameChange += currFrameLength
 				incrementFrame()
-				notifyListenersOfFrameChange(NextFrameEvent(Animation.this))
+				
+				if (running) {
+					notifyListenersOfFrameChange(NextFrameEvent(Animation.this))
+				}
 			}
 		}
 		
