@@ -7,9 +7,9 @@ organizationHomepage := Some(new URL("http://rayrobdod.name/"))
 //version := "20140518"
 version := "SNAPSHOT"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
-crossScalaVersions ++= Seq("2.11.0-M4", "2.10.3", "2.9.3", "2.9.2", "2.9.1")
+crossScalaVersions ++= Seq("2.11.4", "2.10.4", "2.9.3", "2.9.2", "2.9.1")
 
 //exportJars := true
 
