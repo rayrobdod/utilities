@@ -25,6 +25,7 @@ import java.awt.Color;
  * @version 11 Jun 2012
  * @version 28 Oct 2012 - implementing toString.
  * @version 2013 Jun 03 - implementing getIconColor.
+ * @version 2015 Jun 09
  */
 public final class SolidColorIcon implements Icon
 {
@@ -54,5 +55,29 @@ public final class SolidColorIcon implements Icon
 		        color + ", " +
 				"w=" + width + ", " +
 				"h=" + height + "]";
+	}
+	
+	protected boolean canEquals(Object other) {
+		return other instanceof SolidColorIcon;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof SolidColorIcon) {
+			SolidColorIcon other2 = (SolidColorIcon) other;
+			if (other2.canEquals(this)) {
+				return other2.getIconColor().equals(this.getIconColor()) &&
+						other2.getIconWidth() == this.getIconWidth() &&
+						other2.getIconHeight() == this.getIconHeight();
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.getIconColor().hashCode() +
+			31 * (this.getIconWidth() +
+			31 * this.getIconHeight());
 	}
 }
