@@ -7,11 +7,11 @@ organizationHomepage := Some(new URL("http://rayrobdod.name/"))
 //version := "20140518"
 version := "SNAPSHOT"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.10.5"
 
-crossScalaVersions ++= Seq("2.11.4", "2.10.4", "2.9.3", "2.9.2", "2.9.1")
+crossScalaVersions := Seq("2.9.3", "2.10.5", "2.11.6")
 
-//exportJars := true
+compileOrder := CompileOrder.JavaThenScala
 
 javacOptions ++= Seq("-Xlint:deprecation", "-Xlint:unchecked")
 
@@ -19,9 +19,13 @@ scalacOptions ++= Seq("-unchecked", "-deprecation" )
 
 
 
-scalaVersion in Test := "2.10.3"
+// testing
+libraryDependencies += {
+	if (scalaVersion.value == "2.9.3") {
+		"org.scalatest" %% "scalatest" % "1.9.2" % "test"
+	} else {
+		"org.scalatest" %% "scalatest" % "2.2.1" % "test"
+	}
+}
 
-libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
-
-// testOptions in Test += Tests.Argument("-oS")
-
+testOptions in Test += Tests.Argument("-oS")
