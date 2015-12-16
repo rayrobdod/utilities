@@ -28,7 +28,7 @@ object JsonBuild extends Build {
 			id = "utilities",
 			base = file("."),
 			settings = Defaults.coreDefaultSettings 
-				++ javadocSettings
+	//			++ javadocSettings
 	).configs(JavaDoc)
 }
 

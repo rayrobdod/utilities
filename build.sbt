@@ -9,7 +9,7 @@ version := "SNAPSHOT"
 
 scalaVersion := "2.10.5"
 
-crossScalaVersions := Seq("2.9.3", "2.10.5", "2.11.7", "2.12.0-M3")
+crossScalaVersions := Seq("2.10.5", "2.11.7", "2.12.0-M3")
 
 compileOrder := CompileOrder.JavaThenScala
 
