@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
  * @version Aug 1, 2010
  * @version Apr 21, 2011 - moved from <code>net.verizon.rayrobdod.util</code> to <code>net.verizon.rayrobdod.util</code>
  * @version 12 Feb 2012 - moved from net.verizon.rayrobdod.swing to com.rayrobdod.swing
+ * @depricated Well, now that I know <code>Window#dispose</code> is a thing, there is no need for this.
  */
 public class ExitMenuItem extends JMenuItem
 {

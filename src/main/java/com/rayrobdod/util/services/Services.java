@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2013, Raymond Dodge
+	Copyright (c) 2013-2015, Raymond Dodge
 	All rights reserved.
 	 
 	Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.nio.charset.StandardCharsets;
  * A class with a single static method that reads all lines in a ServiceLoader style
  * file.
  * @author Raymond Dodge
- * @version 2013 Dec 17 - using proper classloaders
  */
 public class Services
 {
@@ -93,6 +92,8 @@ public class Services
 				
 				if (!usedPart.isEmpty()) {allLines.add(usedPart);}
 			}
+			
+			serviceFileStream.close();
 		}
 		
 		return allLines.toArray(new String[0]);

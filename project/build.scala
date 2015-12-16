@@ -7,7 +7,7 @@ object JsonBuild extends Build {
 	
 	val javadocSettings = inConfig(JavaDoc)(Defaults.configSettings) ++ Seq(
 		libraryDependencies += compilerPlugin("com.typesafe.genjavadoc" %%
-			"genjavadoc-plugin" % "0.5" cross CrossVersion.full),
+			"genjavadoc-plugin" % "0.9" cross CrossVersion.full),
 		scalacOptions <+= target map (t => "-P:genjavadoc:out=" + (t / "java")),
 		packageDoc in Compile <<= packageDoc in JavaDoc,
 		sources in JavaDoc <<=
@@ -27,8 +27,8 @@ object JsonBuild extends Build {
 	lazy val root = Project(
 			id = "utilities",
 			base = file("."),
-			settings = Defaults.defaultSettings 
+			settings = Defaults.coreDefaultSettings 
 	//			++ javadocSettings
-	)
+	).configs(JavaDoc)
 }
 
