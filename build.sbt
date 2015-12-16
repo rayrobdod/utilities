@@ -9,7 +9,7 @@ version := "SNAPSHOT"
 
 scalaVersion := "2.10.5"
 
-crossScalaVersions := Seq("2.9.3", "2.10.5", "2.11.6")
+crossScalaVersions := Seq("2.9.3", "2.10.5", "2.11.7", "2.12.0-M3")
 
 compileOrder := CompileOrder.JavaThenScala
 
@@ -20,12 +20,16 @@ scalacOptions ++= Seq("-unchecked", "-deprecation" )
 
 
 // testing
-libraryDependencies += {
-	if (scalaVersion.value == "2.9.3") {
-		"org.scalatest" %% "scalatest" % "1.9.2" % "test"
-	} else {
-		"org.scalatest" %% "scalatest" % "2.2.1" % "test"
-	}
+{
+  val scalaTestVersion = Def.setting{ scalaVersion.value.split('.').apply(1) match {
+    case "9" => "1.9.2"
+    case "10" => "2.2.5"
+    case "11" => "2.2.5"
+    case "12" => {
+      "2.2.5" + scalaVersion.value.split('.').apply(2).drop(1)
+    }
+  }}
+  libraryDependencies += "org.scalatest" %% "scalatest" % scalaTestVersion.value % "test"
 }
 
 testOptions in Test += Tests.Argument("-oS")
