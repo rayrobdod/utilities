@@ -1,5 +1,24 @@
 Utilities
 
+== Next ==
+* for higher scala version numbers *
+
+swing
+	deprecate ExitMenuItem
+Services
+	close a particular inputstream after done using it
+
+
+== 2014-05-18 ==
+* for ??? *
+
+Animation
+	finalize a bunch of methods
+Service Loaders
+	now use class loaders to obtain resources
+swing
+	Add Stacked Icon
+
 
 == 2013-09-08 ==
 * for web browser thing *
