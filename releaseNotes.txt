@@ -1,6 +1,11 @@
 Utilities
 
 == Next ==
+
+== 2016-01-12 ==
+* compile with target java7 *
+
+== 2015-12-16 ==
 * for higher scala version numbers *
 
 swing
