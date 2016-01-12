@@ -22,7 +22,6 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-target:jvm-1.7")
 // testing
 {
   val scalaTestVersion = Def.setting{ scalaVersion.value.split('.').apply(1) match {
-    case "9" => "1.9.2"
     case "10" => "2.2.5"
     case "11" => "2.2.5"
     case "12" => {
